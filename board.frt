@@ -22,6 +22,9 @@
 ( Allocate a board from the heap and init it )
 : board-new ( width height -- addr ) 2dup board-memory-size allocate drop dup >r board-init r> ;
 
+( Allocate a board on the Forth memory and init it )
+: board-here ( width height -- addr ) 2dup board-memory-size here swap allot dup >r board-init r> ;
+
 ( ------------------------------ Getters/Setters ----------------------------- )
 
 ( Get the dimentions of a board )
@@ -65,8 +68,10 @@
         rot rot
     loop swap drop swap drop cr ;
 
-: board-display-inter-line ( board -- board ) ." +" dup board-size drop 0 do ." ---+" loop cr ;
+( Display a line made to delimit rows. )
+: board-display-inter-line ( board -- board ) ." +" dup board-size drop 0 do ." ---+" loop ."  " cr ;
 
+( Display a whole word using the 'x on each byte to display. )
 : board-display ( board 'x -- ) swap board-display-inter-line dup board-size nip 0 do
         ( 'x b )
         2dup swap i swap board-display-line
