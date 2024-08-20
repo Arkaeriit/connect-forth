@@ -78,6 +78,9 @@
         board-display-inter-line drop
     loop 2drop ;
 
+\ #SI
+( ----------------------------------- Tests ---------------------------------- )
+
 : id 48 + emit ;
 :macro r>c r> save>r ;
 
