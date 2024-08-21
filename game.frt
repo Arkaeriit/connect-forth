@@ -21,7 +21,7 @@
     ." Error, invalid case." cr (bye) ;
 
 ( Display the board properly formated )
-: connect-display ( board -- ) ' display-case board-display ;
+: connect-display ( board -- ) ['] display-case board-display ;
 
 ( -------------------------------- Game state -------------------------------- )
 
