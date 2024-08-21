@@ -1,5 +1,4 @@
-( Makes a copy of n in the R stack )
-:macro save>r ( n -- n ) dup >r ;
+\ #IR helpers.frt
 
 ( ------------------------------ Initialization ------------------------------ )
 
@@ -14,10 +13,6 @@
     r> r> * 0 do           ( loop over each case )
         dup 0 swap c! 1 +  ( clear the case and increment the pointer )
     loop drop ;
-
-: .? ( n -- n ) dup . cr ;
-: .?? ( n n -- n n ) 2dup . . cr ;
-: .??? ( n n n -- n n n ) save>r . save>r . save>r . r> r> r> cr ;
 
 ( Allocate a board from the heap and init it )
 : board-new ( width height -- addr ) 2dup board-memory-size allocate drop dup >r board-init r> ;
@@ -82,14 +77,13 @@
 ( ----------------------------------- Tests ---------------------------------- )
 
 : id 48 + emit ;
-:macro r>c r> save>r ;
 
 10 15 board-new >r
 
-0 0 r>c 1 board-set
-0 3 r>c 2 board-set
-5 0 r>c 3 board-set
-7 7 r>c 4 board-set
+0 0 r>copy 1 board-set
+0 3 r>copy 2 board-set
+5 0 r>copy 3 board-set
+7 7 r>copy 4 board-set
 
 r> ' id board-display
 
