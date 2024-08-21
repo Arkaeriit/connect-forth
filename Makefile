@@ -1,4 +1,4 @@
-c4.frt: connect.frt board.frt
+c4.frt: interactive-play.frt game.frt connect.frt board.frt
 	preforth $< $@
 
 test: c4.frt
