@@ -35,35 +35,34 @@ loop nip nip ;
 ( ----------------------------------- Tests ---------------------------------- )
 
 : id 48 + emit ;
-:macro r>c r> save>r ;
 
 3 3 board-new >r
 
-0 2 r>c 1 board-set
-0 1 r>c 2 board-set
-0 0 r>c 3 board-set
-1 2 r>c 4 board-set
+0 2 r>copy 1 board-set
+0 1 r>copy 2 board-set
+0 0 r>copy 3 board-set
+1 2 r>copy 4 board-set
 
-r>c ' id board-display
+r>copy ' id board-display
 
-r>c 0 board-col-elem .
-r>c 1 board-col-elem .
-r>c 2 board-col-elem .
+r>copy 0 board-col-elem .
+r>copy 1 board-col-elem .
+r>copy 2 board-col-elem .
 cr
 
-0 r>c connect-column-is-full .
-1 r>c connect-column-is-full .
-2 r>c connect-column-is-full .
+0 r>copy connect-column-is-full .
+1 r>copy connect-column-is-full .
+2 r>copy connect-column-is-full .
 cr
 
-0 r>c connect-next-height .
-1 r>c connect-next-height .
-2 r>c connect-next-height .
+0 r>copy connect-next-height .
+1 r>copy connect-next-height .
+2 r>copy connect-next-height .
 cr
 
-7 0 r>c connect-place-elem .
-8 1 r>c connect-place-elem .
-9 2 r>c connect-place-elem .
+7 0 r>copy connect-place-elem .
+8 1 r>copy connect-place-elem .
+9 2 r>copy connect-place-elem .
 cr
-r>c ' id board-display
+r>copy ' id board-display
 

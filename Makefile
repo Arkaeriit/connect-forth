@@ -1,7 +1,7 @@
 connect-forth.frt: cli-play.frt c4.frt
 	preforth $< $@
 
-c4.frt : interactive-play.frt game.frt connect.frt board.frt
+c4.frt : interactive-play.frt game.frt connect.frt board.frt helpers.frt
 	preforth $< $@
 
 test: connect-forth.frt

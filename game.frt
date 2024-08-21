@@ -59,19 +59,18 @@
 
 s" green" .green ." white" s" yellow" .yellow cr
 
-:macro r>c r> save>r ;
 3 3 board-new >r
-1 0 r>c connect-place-elem
-2 1 r>c connect-place-elem
-1 2 r>c connect-place-elem
-2 0 r>c connect-place-elem
+1 0 r>copy connect-place-elem
+2 1 r>copy connect-place-elem
+1 2 r>copy connect-place-elem
+2 0 r>copy connect-place-elem
 r> connect-display
 
 3 3 game-new >r
-0 r>c game-play
-1 r>c game-play
-0 r>c game-play
-0 r>c game-play
-0 r>c game-play
-2 r>c game-play
+0 r>copy game-play
+1 r>copy game-play
+0 r>copy game-play
+0 r>copy game-play
+0 r>copy game-play
+2 r>copy game-play
 r> game-display
