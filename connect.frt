@@ -2,8 +2,42 @@
 
 ( ----------------------------- Check for winner ----------------------------- )
 
+( Ensure that the 4 element on the stack are equal and not null )
+: check-4-values ( a b c d -- bool ) save>r = rot r>copy = rot r>copy = r> 0 <> and and and ;
+
+( With the board and two coordonates on the data stack, get the value at the )
+( given coordonates and put it on the return stack. Keep the board as is. )
+: board-get-1-coord-on-return ( x y board -- board ) ( -- c ) save>r board-get r> swap >r swapr ;
+
+( Given 4 x/y coordinates, get the values from the board and run )
+( check-4-values on them )
+: check-4-coords ( x1 y1 x2 y2 x3 y3 x4 y4 board -- board bool )
+    4 0 do board-get-1-coord-on-return loop >r
+    4 0 do r>nip loop check-4-values r> swap ;
+
+( Given an x/y coordinate, get it and the 3 following ones in the column )
+: get-4-col ( x y -- x y x y+1 x y+2 x y+3 ) 3 0 do 2dup 1+ loop ;
+
+( Given a coordinate, a word to expand, and the board it to a line, return if )
+( there is a win from that )
+: connect-win-from-coord ( x y 'x board -- board bool ) >r execute r> check-4-coords ;
+
+( Check that there was a win in a column )
+: connect-win-column ( x board -- board bool ) dup board-size nip 3 - 0 do
+        ( x board )
+        2dup i swap ['] get-4-col swap connect-win-from-coord
+        ( x board board bool )
+        if drop nip 1 exit else drop then
+    loop nip 0 ;
+
+( Check that there is a win in any column )
+: connect-win-columns ( board -- board bool ) dup board-size drop 0 do
+        i swap connect-win-column
+        if 1 exit then
+    loop 0 ;
+
 ( Return a true value if there is a winner and false otherwise )
-: connect-win ( board -- b ) drop 0 ( TODO ) ; 
+: connect-win ( board -- b ) connect-win-columns nip ( TODO ) ; 
 
 ( ------------------------------- Placing coins ------------------------------ )
 

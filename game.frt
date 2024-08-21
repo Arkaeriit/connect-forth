@@ -46,10 +46,15 @@
 
 ( Try to put a coin of the current player to the target column. If it is full, )
 ( print an error message. Otherwise, place the coin and swap players )
-: game-play ( column game -- ) save>r dup game-get-player rot rot @ connect-place-elem
+: (game-play) ( column game -- ) save>r dup game-get-player rot rot @ connect-place-elem
     if r> game-swap-player
     else ." The target column is full." cr r> drop
     then ;
+
+( Play a round and chek if there is a win. If so, ... )
+: game-play ( column game -- ) save>r (game-play) r> game-get-board connect-win if
+    ." Yay!" cr
+    else ." Ho nooo" cr then ;
 
 : game-display ( game -- ) game-get-board connect-display ;
 
