@@ -31,6 +31,7 @@ loop nip nip ;
 : connect-place-elem ( elem column board -- b ) 2dup connect-column-is-full if 2drop drop 0 exit then
     rot >r 2dup connect-next-height swap r> board-set 1 ; 
 
+\ #SI
 ( ----------------------------------- Tests ---------------------------------- )
 
 : id 48 + emit ;
