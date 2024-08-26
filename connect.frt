@@ -21,6 +21,14 @@
 ( Given an x/y coordinate, get it and the 3 following ones in the line )
 : get-4-line ( x y -- x y x+1 y x+2 y x+3 y ) 3 0 do 2dup swap 1+ swap loop ;
 
+( given an x/y coordinate, get it and the 3 following ones in the descending )
+( right diagonal. )
+: get-4-diag-1 ( x y -- x y x+1 y+1 x+2 y+2 x+3 y+3 ) 3 0 do 2dup 1+ swap 1+ swap loop ;
+
+( given an x/y coordinate, get it and the 3 following ones in the descending )
+( left diagonal. )
+: get-4-diag-2 ( x y -- x y x-1 y+1 x-2 y+2 x-3 y+3 ) 3 0 do 2dup 1+ swap 1- swap loop ;
+
 ( Given a coordinate, a word to expand, and the board it to a line, return if )
 ( there is a win from that )
 : connect-win-from-coord ( x y 'x board -- board bool ) >r execute r> check-4-coords ;
@@ -53,8 +61,24 @@
         if 1 exit then
     loop 0 ;
 
+( Check that there is a win in a descending right diagonal )
+: connect-win-diag-1 ( board -- board bool ) save>r board-size 3 - 0 do
+    dup 3 - 0 do
+        i j ['] get-4-diag-1 r>copy connect-win-from-coord
+        if drop r> 1 exit then
+        drop
+    loop loop drop r> 0 ;
+
+( Check that there is a win in a descending left diagonal )
+: connect-win-diag-2 ( board -- board bool ) save>r board-size 3 - 0 do
+    dup 3 do
+        i j ['] get-4-diag-2 r>copy connect-win-from-coord
+        if drop r> 1 exit then
+        drop
+    loop loop drop r> 0 ;
+
 ( Return a true value if there is a winner and false otherwise )
-: connect-win ( board -- b ) connect-win-lines nip ( TODO ) ;
+: connect-win ( board -- b ) connect-win-diag-2 nip ( TODO ) ;
 
 ( ------------------------------- Placing coins ------------------------------ )
 
