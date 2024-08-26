@@ -18,6 +18,9 @@
 ( Given an x/y coordinate, get it and the 3 following ones in the column )
 : get-4-col ( x y -- x y x y+1 x y+2 x y+3 ) 3 0 do 2dup 1+ loop ;
 
+( Given an x/y coordinate, get it and the 3 following ones in the line )
+: get-4-line ( x y -- x y x+1 y x+2 y x+3 y ) 3 0 do 2dup swap 1+ swap loop ;
+
 ( Given a coordinate, a word to expand, and the board it to a line, return if )
 ( there is a win from that )
 : connect-win-from-coord ( x y 'x board -- board bool ) >r execute r> check-4-coords ;
@@ -36,8 +39,22 @@
         if 1 exit then
     loop 0 ;
 
+( Check that there was a win in a line )
+: connect-win-line ( x board -- board bool ) dup board-size drop 3 - 0 do
+        ( x board )
+        2dup >r i swap r> ['] get-4-line swap connect-win-from-coord
+        ( x board board bool )
+        if drop nip 1 exit else drop then
+    loop nip 0 ;
+
+( Check that there is a win in any column )
+: connect-win-lines ( board -- board bool ) dup board-size nip 0 do
+        i swap connect-win-line
+        if 1 exit then
+    loop 0 ;
+
 ( Return a true value if there is a winner and false otherwise )
-: connect-win ( board -- b ) connect-win-columns nip ( TODO ) ; 
+: connect-win ( board -- b ) connect-win-lines nip ( TODO ) ;
 
 ( ------------------------------- Placing coins ------------------------------ )
 
