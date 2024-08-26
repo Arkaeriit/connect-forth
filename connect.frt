@@ -78,7 +78,7 @@
     loop loop drop r> 0 ;
 
 ( Return a true value if there is a winner and false otherwise )
-: connect-win ( board -- b ) connect-win-diag-2 nip ( TODO ) ;
+: connect-win ( board -- b ) connect-win-columns swap connect-win-lines swap connect-win-diag-1 swap connect-win-diag-2 nip or or or ;
 
 ( ------------------------------- Placing coins ------------------------------ )
 
