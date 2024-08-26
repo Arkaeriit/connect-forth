@@ -2,6 +2,9 @@
 
 ( ----------------------------- Check for winner ----------------------------- )
 
+( The following codes contain a lot of duplication. But I don't really want to )
+( refactor it to keep it somewhat readable. )
+
 ( Ensure that the 4 element on the stack are equal and not null )
 : check-4-values ( a b c d -- bool ) save>r = rot r>copy = rot r>copy = r> 0 <> and and and ;
 
