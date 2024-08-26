@@ -8,6 +8,7 @@
 variable game-state
 
 : (c4-display) ( -- ) game-state @ game-display ;
+: (c4-is-won) ( -- bool ) game-state @ game-get-win-state-addr @ ;
 
 : (c4-start) ( -- ) width height game-new game-state ! ;
 : c4-start ( -- ) (c4-start) ." Starting a new game of Connect Forth!" cr

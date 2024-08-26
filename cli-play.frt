@@ -25,8 +25,7 @@
     then ;
 
 : repl begin key handle-key
-    ( TODO: end game when needed. )
-    0 until ;
+    (c4-is-won) until ;
 
 : main (c4-start)
     ." Starting a new game of Connect Forth!" cr
