@@ -38,13 +38,13 @@
         ( x board )
         2dup i swap ['] get-4-col swap connect-win-from-coord
         ( x board board bool )
-        if drop nip 1 exit else drop then
+        if drop nip 1 unloop exit else drop then
     loop nip 0 ;
 
 ( Check that there is a win in any column )
 : connect-win-columns ( board -- board bool ) dup board-size drop 0 do
         i swap connect-win-column
-        if 1 exit then
+        if 1 unloop exit then
     loop 0 ;
 
 ( Check that there was a win in a line )
@@ -52,20 +52,20 @@
         ( x board )
         2dup >r i swap r> ['] get-4-line swap connect-win-from-coord
         ( x board board bool )
-        if drop nip 1 exit else drop then
+        if drop nip 1 unloop exit else drop then
     loop nip 0 ;
 
 ( Check that there is a win in any column )
 : connect-win-lines ( board -- board bool ) dup board-size nip 0 do
         i swap connect-win-line
-        if 1 exit then
+        if 1 unloop exit then
     loop 0 ;
 
 ( Check that there is a win in a descending right diagonal )
 : connect-win-diag-1 ( board -- board bool ) save>r board-size 3 - 0 do
     dup 3 - 0 do
         i j ['] get-4-diag-1 r>copy connect-win-from-coord
-        if drop r> 1 exit then
+        if drop r> 1 unloop unloop exit then
         drop
     loop loop drop r> 0 ;
 
@@ -73,7 +73,7 @@
 : connect-win-diag-2 ( board -- board bool ) save>r board-size 3 - 0 do
     dup 3 do
         i j ['] get-4-diag-2 r>copy connect-win-from-coord
-        if drop r> 1 exit then
+        if drop r> 1 unloop unloop exit then
         drop
     loop loop drop r> 0 ;
 
