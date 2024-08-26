@@ -26,17 +26,19 @@
 ( -------------------------------- Game state -------------------------------- )
 
 ( The game state is rather simple, a pointer to the board and either 1 or 2 to )
-( tell which player's turn it is. )
+( tell which player's turn it is, and a boolean telling if the game has been )
+( won. )
 
 ( Allocate a game on the heap )
 ( TODO: refacto the here/new thingie )
-: game-new ( width height -- addr ) board-new 2 cells allocate drop dup rot swap ! dup cell+ 1 swap ! ;
+: game-new ( width height -- addr ) board-new 3 cells allocate drop dup rot swap ! dup cell+ 1 swap ! dup 2 cells + 0 swap ! ;
 
 ( Allocate a game on the Forth memory )
-: game-here ( width height -- addr ) board-new here 2 cells allot dup rot swap ! dup cell+ 1 swap ! ;
+: game-here ( width height -- addr ) board-new here 3 cells allot dup rot swap ! dup cell+ 1 swap ! dup 2 cells + 0 swap ! ;
 
 : game-get-board ( game -- board ) @ ;
-: game-get-player ( game -- addr ) cell+ @ ;
+: game-get-player ( game -- c ) cell+ @ ;
+: game-get-win-state-addr ( game -- addr ) 2 cells + ;
 
 : game-swap-player ( game -- ) dup game-get-player
     dup  1 = if drop 2
@@ -51,10 +53,16 @@
     else ." The target column is full." cr r> drop
     then ;
 
-( Play a round and chek if there is a win. If so, ... )
-: game-play ( column game -- ) save>r (game-play) r> game-get-board connect-win if
-    ." Yay!" cr
-    else ." Ho nooo" cr then ;
+( Play a round and chek if there is a win. If so, print a win message and )
+( update the state. Don't try to play if there if already a winner. )
+: game-play ( column game -- )
+    ( TODO: also check for tie )
+    dup game-get-win-state-addr @ if
+        ." Player " game-get-player display-case ."  already won." cr drop exit then
+    save>r (game-play)
+    r>copy game-get-board connect-win if
+        r> dup dup game-swap-player game-get-win-state-addr 1 swap ! ." Player " game-get-player display-case ."  win! Congratulations!" cr
+        else r> drop then ;
 
 : game-display ( game -- ) game-get-board connect-display ;
 
