@@ -8,14 +8,14 @@ c4.frt : interactive-play.frt game.frt connect.frt board.frt helpers.frt
 	preforth $< $@
 
 compact.frt : c4.frt
-	cat $< | sed -z 's:\n: :g; s:(\s[^)]*)::g; s:\s\+: :g' > $@
+	cat $< | sed -z 's:\n: :g; s:(\s[^)]*)::g' > $@
 
 devzat-display.frt : compact.frt
 	cp $< $@
 	printf 's" ```\\n" display-frame 2! ' >> $@
 
 devzat.frt : devzat-display.frt
-	cat $< | sed 's:\(.\{4000\}[^ ]*\):\1\n:' | sed 's:^:forth:' > $@
+	cat $< | sed 's:\(.\{3000\}[^ ]*\):\1\n:' | sed 's:^:forth:' > $@
 
 test: connect-forth.frt
 	amforth $<
