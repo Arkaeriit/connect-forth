@@ -34,5 +34,5 @@
     (c4-display)
     repl ;
 
-main
+main bye
 

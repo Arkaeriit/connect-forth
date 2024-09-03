@@ -53,7 +53,7 @@
 ( Check that there was a win in a line )
 : connect-win-line ( x board -- board bool ) dup board-size drop 3 - 0 do
         ( x board )
-        2dup >r i swap r> ['] get-4-line swap connect-win-from-coord
+        2dup i swap >r swap ['] get-4-line r> connect-win-from-coord
         ( x board board bool )
         if drop nip 1 unloop exit else drop then
     loop nip 0 ;

@@ -15,6 +15,8 @@
 : .? ( n -- n ) dup . cr ;
 : .?? ( n n -- n n ) 2dup . . cr ;
 : .??? ( n n n -- n n n ) save>r . save>r . save>r . r> r> r> cr ;
-: .d? ." Depth: " depth . cr ;
-: .x? save>r 0 do dup . >r swapr loop r> 0 do r> loop cr ;
+: .d? ( -- ) ." Depth: " depth . cr ;
+
+( Display the top n elements on the stack )
+: .x? ( ... n -- ) save>r 0 do dup . >r swapr loop r> 0 do r> loop cr ;
 
