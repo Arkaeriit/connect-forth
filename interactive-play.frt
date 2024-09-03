@@ -6,6 +6,7 @@
 7 constant width
 6 constant height
 variable game-state
+0 game-state !
 
 ( display-frame variable. Used to surrond the display with a string if needed )
 ( default to being empty )
@@ -16,7 +17,8 @@ s" " display-frame 2!
 : (c4-display) ( -- ) (display-frame) game-state @ game-display (display-frame) ;
 : (c4-is-won) ( -- bool ) game-state @ game-get-win-state-addr @ ;
 
-: (c4-start) ( -- ) width height game-new game-state ! ;
+: (c4-free) game-state @ 0<> if game-state @ game-free then ;
+: (c4-start) ( -- ) (c4-free) width height game-new game-state ! ;
 : c4-start ( -- ) (c4-start) ." Starting a new game of Connect Forth!" cr
     ." Play by entering c4-1 to c4-7." cr (c4-display) ;
 

@@ -36,6 +36,8 @@
 ( Allocate a game on the Forth memory )
 : game-here ( width height -- addr ) board-new here 3 cells allot dup rot swap ! dup cell+ 1 swap ! dup 2 cells + 0 swap ! ;
 
+: game-free ( game -- ) dup @ board-free free ;
+
 : game-get-board ( game -- board ) @ ;
 : game-get-player ( game -- c ) cell+ @ ;
 : game-get-win-state-addr ( game -- addr ) 2 cells + ;

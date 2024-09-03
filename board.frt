@@ -17,6 +17,9 @@
 ( Allocate a board from the heap and init it )
 : board-new ( width height -- addr ) 2dup board-memory-size allocate drop dup >r board-init r> ;
 
+( Free a board from the heap )
+: board-free free ;
+
 ( Allocate a board on the Forth memory and init it )
 : board-here ( width height -- addr ) 2dup board-memory-size here swap allot dup >r board-init r> ;
 
