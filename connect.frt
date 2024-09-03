@@ -8,15 +8,15 @@
 ( Ensure that the 4 element on the stack are equal and not null )
 : check-4-values ( a b c d -- bool ) save>r = rot r>copy = rot r>copy = r> 0 <> and and and ;
 
-( With the board and two coordonates on the data stack, get the value at the )
-( given coordonates and put it on the return stack. Keep the board as is. )
-: board-get-1-coord-on-return ( x y board -- board ) ( -- c ) save>r board-get r> swap >r swapr ;
+( Get the value at the given coordonate and put it at the given address )
+: board-get-1-coord-on-array ( x y board addr -- board ) >r save>r board-get r> r> ( c board arr ) rot swap ! ;
 
 ( Given 4 x/y coordinates, get the values from the board and run )
 ( check-4-values on them )
 : check-4-coords ( x1 y1 x2 y2 x3 y3 x4 y4 board -- board bool )
-    4 0 do board-get-1-coord-on-return loop >r
-    4 0 do r>nip loop check-4-values r> swap ;
+    4 cells allocate drop save>r
+    4 0 do save>r board-get-1-coord-on-array r> cell+ loop drop r>copy
+    4 0 do dup @ swap cell+ loop drop check-4-values r> free drop ;
 
 ( Given an x/y coordinate, get it and the 3 following ones in the column )
 : get-4-col ( x y -- x y x y+1 x y+2 x y+3 ) 3 0 do 2dup 1+ loop ;
@@ -65,20 +65,22 @@
     loop 0 ;
 
 ( Check that there is a win in a descending right diagonal )
-: connect-win-diag-1 ( board -- board bool ) save>r board-size 3 - 0 do
+: connect-win-diag-1 ( board -- board bool ) dup board-size 3 - 0 do
     dup 3 - 0 do
-        i j ['] get-4-diag-1 r>copy connect-win-from-coord
-        if drop r> 1 unloop unloop exit then
+        over
+        i swap j swap ['] get-4-diag-1 swap connect-win-from-coord
+        if nip 1 unloop unloop exit then
         drop
-    loop loop drop r> 0 ;
+    loop loop drop 0 ;
 
 ( Check that there is a win in a descending left diagonal )
-: connect-win-diag-2 ( board -- board bool ) save>r board-size 3 - 0 do
+: connect-win-diag-2 ( board -- board bool ) dup board-size 3 - 0 do
     dup 3 do
-        i j ['] get-4-diag-2 r>copy connect-win-from-coord
-        if drop r> 1 unloop unloop exit then
+        over
+        i swap j swap ['] get-4-diag-2 swap connect-win-from-coord
+        if 2drop 1 unloop unloop exit then
         drop
-    loop loop drop r> 0 ;
+    loop loop drop 0 ;
 
 ( Return a true value if there is a winner and false otherwise )
 : connect-win ( board -- b ) connect-win-columns swap connect-win-lines swap connect-win-diag-1 swap connect-win-diag-2 nip or or or ;
