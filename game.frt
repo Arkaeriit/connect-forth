@@ -29,14 +29,15 @@
 ( tell which player's turn it is, and a boolean telling if the game has been )
 ( won. )
 
+( Allocate a game given an allocator )
+: (game-allot) ( width height 'x -- addr ) save>r (board-allot) 3 cells r> execute dup rot swap ! dup cell+ 1 swap ! dup 2 cells + 0 swap ! ;
+
 ( Allocate a game on the heap )
-( TODO: refacto the here/new thingie )
-: game-new ( width height -- addr ) board-new 3 cells allocate drop dup rot swap ! dup cell+ 1 swap ! dup 2 cells + 0 swap ! ;
-
+: game-new ( width height -- addr ) ['] heap-allocator (game-allot) ;
 ( Allocate a game on the Forth memory )
-: game-here ( width height -- addr ) board-new here 3 cells allot dup rot swap ! dup cell+ 1 swap ! dup 2 cells + 0 swap ! ;
+: game-here ( width height -- addr ) ['] forth-allocator (game-allot)  ;
 
-: game-free ( game -- ) dup @ board-free free ;
+: game-free ( game -- ) dup @ board-free (free) ;
 
 : game-get-board ( game -- board ) @ ;
 : game-get-player ( game -- c ) cell+ @ ;

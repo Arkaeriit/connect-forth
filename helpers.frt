@@ -1,3 +1,5 @@
+( ---------------------------- Stack manipulation ---------------------------- )
+
 ( Makes a copy of n in the R stack )
 : save>r ( n -- n ) ( -- n ) dup r> swap >r >r ;
 
@@ -10,8 +12,17 @@
 ( Get the value before the top of the return stack )
 : r>nip ( -- b ) ( b a -- a ) r> r> r> rot rot >r >r ;
 
+( -------------------------------- Allocation -------------------------------- )
 
-( Debug words )
+( The two following word allocate some RAM and give a pointer to it. )
+: heap-allocator ( n -- addr ) allocate drop ;
+: forth-allocator ( n -- addr ) here swap allot ;
+
+( Free and drop result )
+: (free) ( addr -- ) free drop ;
+
+( ----------------------------------- Debug ---------------------------------- )
+
 : .? ( n -- n ) dup . cr ;
 : .?? ( n n -- n n ) 2dup . . cr ;
 : .??? ( n n n -- n n n ) save>r . save>r . save>r . r> r> r> cr ;
