@@ -14,14 +14,16 @@
         dup 0 swap c! 1 +  ( clear the case and increment the pointer )
     loop drop ;
 
+( Allocate a board given an allocator )
+: (board-allot) ( width height 'x -- addr ) >r 2dup board-memory-size r> execute dup >r board-init r> ;
+
 ( Allocate a board from the heap and init it )
-: board-new ( width height -- addr ) 2dup board-memory-size allocate drop dup >r board-init r> ;
+: board-new ( width height -- addr ) ['] heap-allocator (board-allot) ;
+( Allocate a board on the Forth memory and init it )
+: board-here ( width height -- addr ) ['] forth-allocator (board-allot) ;
 
 ( Free a board from the heap )
-: board-free free ;
-
-( Allocate a board on the Forth memory and init it )
-: board-here ( width height -- addr ) 2dup board-memory-size here swap allot dup >r board-init r> ;
+: board-free (free) ;
 
 ( ------------------------------ Getters/Setters ----------------------------- )
 

@@ -32,7 +32,8 @@
     ." Play by typing 1, 2, 3, 4, 5, 6, or 7 to choose a column." cr
     ." Quit by typing q, Q, or ctrl-d." cr
     (c4-display)
-    repl ;
+    repl
+    (c4-free) ;
 
 main bye
 

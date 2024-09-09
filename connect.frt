@@ -16,7 +16,7 @@
 : check-4-coords ( x1 y1 x2 y2 x3 y3 x4 y4 board -- board bool )
     4 cells allocate drop save>r
     4 0 do save>r board-get-1-coord-on-array r> cell+ loop drop r>copy
-    4 0 do dup @ swap cell+ loop drop check-4-values r> free drop ;
+    4 0 do dup @ swap cell+ loop drop check-4-values r> (free) ;
 
 ( Given an x/y coordinate, get it and the 3 following ones in the column )
 : get-4-col ( x y -- x y x y+1 x y+2 x y+3 ) 3 0 do 2dup 1+ loop ;
