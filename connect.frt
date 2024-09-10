@@ -111,6 +111,14 @@ loop nip nip ;
 : connect-place-elem ( elem column board -- b ) 2dup connect-column-is-full if 2drop drop 0 exit then
     rot >r 2dup connect-next-height swap r> board-set 1 ; 
 
+( ------------------------------- Check for tie ------------------------------ )
+
+( Return true if board is full )
+: connect-board-is-full ( board -- b ) dup board-size drop 0 do
+        dup i swap connect-column-is-full 0= if drop unloop 0 exit then
+    loop drop 1 ;
+
+
 \ #SI
 ( ----------------------------------- Tests ---------------------------------- )
 
@@ -144,5 +152,13 @@ cr
 8 1 r>copy connect-place-elem .
 9 2 r>copy connect-place-elem .
 cr
+
 r>copy ' id board-display
+
+." Is_full = " r>copy connect-board-is-full . cr
+7 1 r>copy connect-place-elem drop
+8 2 r>copy connect-place-elem drop
+9 2 r>copy connect-place-elem drop
+r>copy ' id board-display
+." Is_full = " r>copy connect-board-is-full . cr
 

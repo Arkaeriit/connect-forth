@@ -26,8 +26,8 @@
 ( -------------------------------- Game state -------------------------------- )
 
 ( The game state is rather simple, a pointer to the board and either 1 or 2 to )
-( tell which player's turn it is, and a boolean telling if the game has been )
-( won. )
+( tell which player's turn it is, and an end game state wich is 0 is the game )
+( is in progress, 1 if a player won, and 2 in case of a tie. )
 
 ( Allocate a game given an allocator )
 : (game-allot) ( width height 'x -- addr ) save>r (board-allot) 3 cells r> execute dup rot swap ! dup cell+ 1 swap ! dup 2 cells + 0 swap ! ;
@@ -59,12 +59,15 @@
 ( Play a round and chek if there is a win. If so, print a win message and )
 ( update the state. Don't try to play if there if already a winner. )
 : game-play ( column game -- )
-    ( TODO: also check for tie )
-    dup game-get-win-state-addr @ if
+    dup game-get-win-state-addr @ 1 = if
         ." Player " game-get-player display-case ."  already won." cr drop exit then
+    dup game-get-win-state-addr @ 2 = if
+        ." Tie." cr drop exit then
     save>r (game-play)
     r>copy game-get-board connect-win if
-        r> dup dup game-swap-player game-get-win-state-addr 1 swap ! ." Player " game-get-player display-case ."  win! Congratulations!" cr
+        r> dup dup game-swap-player game-get-win-state-addr 1 swap ! ." Player " game-get-player display-case ."  win! Congratulations!" cr exit then
+    r>copy game-get-board connect-board-is-full if
+        r> game-get-win-state-addr 2 swap ! ." It's a tie!" cr
         else r> drop then ;
 
 : game-display ( game -- ) game-get-board connect-display ;
