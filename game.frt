@@ -20,8 +20,11 @@
     dup 2 = if drop s" X" .yellow exit then
     ." Error, invalid case." cr (bye) ;
 
+( Display the numbers atop columns )
+: board-display-column-index ( board -- board ) dup board-size drop 0 do i 1+ s>d <# bl hold #s s"   " holds #> type loop cr ;
+
 ( Display the board properly formated )
-: connect-display ( board -- ) ['] display-case board-display ;
+: connect-display ( board -- ) board-display-column-index ['] display-case board-display ;
 
 ( -------------------------------- Game state -------------------------------- )
 
