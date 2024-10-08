@@ -11,8 +11,9 @@ compact.frt : c4.frt
 	cat $< | sed -z 's:\n: :g; s:(\s[^)]*)::g' > $@
 
 devzat-display.frt : compact.frt
-	cp $< $@
-	printf 's" ```\\n" display-frame 2! : (bye) 0 ! ; ' >> $@
+	printf ' : (bye) 0 ! ; ' >> $@
+	cat $< >> $@
+	printf ' s" ```\\n" display-frame 2! ' >> $@
 
 devzat.frt : devzat-display.frt
 	cat $< | sed 's:\(.\{3000\}[^ ]*\):\1\n:' | sed 's:^:forth:' > $@
