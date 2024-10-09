@@ -22,10 +22,13 @@ s" " display-frame 2!
 : c4-start ( -- ) (c4-start) ." Starting a new game of Connect Forth!" cr
     ." Play by entering c4-1 to c4-7." cr (c4-display) ;
 
-: c4-1 ( -- ) 0 game-state @ game-play (c4-display) ;
-: c4-2 ( -- ) 1 game-state @ game-play (c4-display) ;
-: c4-3 ( -- ) 2 game-state @ game-play (c4-display) ;
-: c4-4 ( -- ) 3 game-state @ game-play (c4-display) ;
-: c4-5 ( -- ) 4 game-state @ game-play (c4-display) ;
-: c4-6 ( -- ) 5 game-state @ game-play (c4-display) ;
-: c4-7 ( -- ) 6 game-state @ game-play (c4-display) ;
+: c4-play ( n -- ) 1- game-state @ game-play (c4-display) ;
+
+: c4-1 ( -- ) 1 c4-play ;
+: c4-2 ( -- ) 2 c4-play ;
+: c4-3 ( -- ) 3 c4-play ;
+: c4-4 ( -- ) 4 c4-play ;
+: c4-5 ( -- ) 5 c4-play ;
+: c4-6 ( -- ) 6 c4-play ;
+: c4-7 ( -- ) 7 c4-play ;
+
