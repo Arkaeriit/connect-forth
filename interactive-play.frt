@@ -22,13 +22,13 @@ s" " display-frame 2!
 : c4-start ( -- ) (c4-start) ." Starting a new game of Connect Forth!" cr
     ." Play by entering c4-1 to c4-7." cr (c4-display) ;
 
+( Play a coin on the nth column, 1 indexed )
 : c4-play ( n -- ) 1- game-state @ game-play (c4-display) ;
 
-: c4-1 ( -- ) 1 c4-play ;
-: c4-2 ( -- ) 2 c4-play ;
-: c4-3 ( -- ) 3 c4-play ;
-: c4-4 ( -- ) 4 c4-play ;
-: c4-5 ( -- ) 5 c4-play ;
-: c4-6 ( -- ) 6 c4-play ;
-: c4-7 ( -- ) 7 c4-play ;
+( Compile the word c4-n which call c4-play with the value n )
+: compile-c4-x ( n -- ) dup <# s"  c4-play ; " holds s>d #s d>s drop bl hold s>d #s s"  : c4-" holds #> evaluate ;
+
+( Compile all c4-x words needed to play with the current width )
+: compile-all-c4-x width 0 do i 1+ compile-c4-x loop ;
+compile-all-c4-x
 
