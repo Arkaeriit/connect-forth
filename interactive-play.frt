@@ -23,7 +23,9 @@ s" " display-frame 2!
     ." Play by entering c4-1 to c4-7." cr (c4-display) ;
 
 ( Play a coin on the nth column, 1 indexed )
-: c4-play ( n -- ) 1- game-state @ game-play (c4-display) ;
+: c4-play ( n -- ) dup width > if
+        ." Error, invalid column." cr drop exit then
+    1- game-state @ game-play (c4-display) ;
 
 ( Compile the word c4-n which call c4-play with the value n )
 : compile-c4-x ( n -- ) dup <# s"  c4-play ; " holds s>d #s d>s drop bl hold s>d #s s"  : c4-" holds #> evaluate ;
