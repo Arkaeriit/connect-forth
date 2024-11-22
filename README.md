@@ -6,7 +6,7 @@ A game of Connect Four written in Forth.
 
 To build connect-forth, you need `make` and [Preforth](https://github.com/Arkaeriit/preforth).
 
-To run it, you need a Forth environment. The supported ones are [ASCminiForth](https://github.com/Arkaeriit/ASCminiForth) and [Gforth](https://gforth.org/).
+To run it, you need a Forth environment. The supported ones are [SEForth](https://github.com/Arkaeriit/SEForth) and [Gforth](https://gforth.org/).
 
 ## How to play
 

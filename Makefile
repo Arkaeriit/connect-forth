@@ -19,7 +19,7 @@ devzat.frt : devzat-display.frt
 	cat $< | sed 's:\(.\{3000\}[^ ]*\):\1\n:' | sed 's:^:forth:' > $@
 
 test: connect-forth.frt
-	amforth $<
+	seforth $<
 
 clean:
 	rm -f c4.frt
