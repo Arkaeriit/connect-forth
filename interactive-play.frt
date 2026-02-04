@@ -8,11 +8,11 @@
 variable game-state
 0 game-state !
 
-( display-frame variable. Used to surrond the display with a string if needed )
+( display-frame function. Used to surrond the display with a string if needed )
 ( default to being empty )
-variable display-frame 1 cell allot
-s" " display-frame 2!
-: (display-frame) display-frame 2@ type ;
+defer display-frame
+:noname s" " ; is display-frame
+: (display-frame) display-frame type ;
 
 : (c4-display) ( -- ) (display-frame) game-state @ game-display (display-frame) ;
 : (c4-is-won) ( -- bool ) game-state @ game-get-win-state-addr @ ;

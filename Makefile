@@ -13,7 +13,7 @@ compact.frt : c4.frt
 devzat-display.frt : compact.frt
 	printf ' : (bye) 0 ! ; ' >> $@
 	cat $< >> $@
-	printf ' s" ```\\n" display-frame 2! ' >> $@
+	printf ' :noname s" ```\\n" ; is display-frame ' >> $@
 
 devzat.frt : devzat-display.frt
 	cat $< | sed 's:\(.\{3000\}[^ ]*\):\1\n:' | sed 's:^:forth:' > $@
